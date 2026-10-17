@@ -23,7 +23,9 @@ const civica=[
 ["DOVE BUTTI UNA BOTTIGLIA DI PLASTICA VUOTA?","differenziata-corretta","differenziata-sbagliata"],
 ["UN COMPAGNO È SOLO. CHE COSA FAI?","includere-compagno","escludere-compagno"]
 ];
+religione.splice(3);
 variants.religione=religione.map(x=>[x[0],x[2],x[1]]);
+civica.splice(1);
 variants.civica=civica.map(x=>[x[0],[x[1],x[2]],x[1]]);
 const oldActivity=activity;
 activity=function(l){const a=oldActivity(l);if(l.id==='religione'){const x=religione[activityIndex];a.type='religionPhoto';a.question=x[0];a.hint='ASCOLTA E SCEGLI LA FOTOGRAFIA GIUSTA.';a.expected=x[1];a.pictures=x[2]}if(l.id==='civica'){const x=civica[activityIndex];a.type='civicPhoto';a.question=x[0];a.hint='ASCOLTA E SCEGLI IL COMPORTAMENTO CORRETTO.';a.expected=x[1];a.pictures=[x[1],x[2]]}return a};
