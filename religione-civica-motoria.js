@@ -46,14 +46,32 @@ const oldRender=renderLesson;
 renderLesson=function(l){
 if(!["lifeOfJesus","civicChoice","sportChoice"].includes(l.type)){oldRender(l);return}
 const body=document.getElementById("lessonBody");
+const questionBar='<div class="rce-voice"><button type="button" class="btn" onclick="luigiReadQuestion()">🔊 ASCOLTA LA DOMANDA</button><span id="rce-voice-state" role="status"></span></div>';
 if(l.type==="lifeOfJesus"){
 placed=Array(l.stages.length).fill(null);
-body.innerHTML='<div class="rce-images">'+l.stages.map((s,i)=>'<button type="button" class="rce-card" data-jesus="'+i+'" onclick="luigiJesusPick('+i+')"><span class="rce-pic">'+s.art+'</span><strong>'+s.n+'</strong></button>').join('')+'</div><h3>ORDINA LE TAPPE DA 1 A '+l.stages.length+'</h3><div class="rce-slots">'+l.stages.map((_,i)=>'<button type="button" id="rce-slot-'+i+'" class="rce-slot" onclick="luigiJesusPlace('+i+')">'+(i+1)+'</button>').join('')+'</div>';return
+body.innerHTML=questionBar+'<div class="rce-images">'+l.stages.map((s,i)=>'<button type="button" class="rce-card" data-jesus="'+i+'" onclick="luigiJesusPick('+i+')"><span class="rce-pic">'+s.art+'</span><strong>'+s.n+'</strong></button>').join('')+'</div><h3>ORDINA LE TAPPE DA 1 A '+l.stages.length+'</h3><div class="rce-slots">'+l.stages.map((_,i)=>'<button type="button" id="rce-slot-'+i+'" class="rce-slot" onclick="luigiJesusPlace('+i+')">'+(i+1)+'</button>').join('')+'</div>';return
 }
 if(l.type==="civicChoice"){
 body.innerHTML='<div class="rce-images rce-two">'+l.choices.map(p=>'<button type="button" class="rce-card" data-answer="'+escapeHTML(p[1])+'" onclick="choose(this)"><span class="rce-pic">'+p[0]+'</span><strong>'+p[1]+'</strong></button>').join('')+'</div>';return
 }
-body.innerHTML='<div class="rce-images">'+l.pictures.map((p,i)=>'<button type="button" class="rce-card" data-answer="'+p+'" onclick="choose(this)"><span class="rce-pic">'+p+'</span><strong>IMMAGINE '+(i+1)+'</strong></button>').join('')+'</div>'
+body.innerHTML=questionBar+'<div class="rce-images">'+l.pictures.map((p,i)=>'<button type="button" class="rce-card" data-answer="'+p+'" onclick="choose(this)"><span class="rce-pic">'+p+'</span><strong>IMMAGINE '+(i+1)+'</strong></button>').join('')+'</div>'
+};
+window.luigiReadQuestion=function(){
+const msg=current?.type==="lifeOfJesus"?"METTI IN ORDINE LE IMMAGINI DELLA VITA DI GESÙ. TOCCA UNA IMMAGINE E POI UNA CASELLA NUMERATA.":current?.question;
+const label=document.getElementById("rce-voice-state");
+if(!msg)return;
+if(!("speechSynthesis" in window)){if(label)label.textContent="AUDIO NON DISPONIBILE";return}
+try{
+speechSynthesis.cancel();
+const speech=new SpeechSynthesisUtterance(msg);
+speech.lang="it-IT";speech.rate=0.78;speech.pitch=1;
+const voices=speechSynthesis.getVoices();
+const v=voices.find(v=>v.lang.toLowerCase().startsWith("it")&&v.localService)||voices.find(v=>v.lang.toLowerCase().startsWith("it"));
+if(v)speech.voice=v;
+speech.onerror=()=>{if(label)label.textContent="VERIFICA LE VOCI ITALIANE DEL DISPOSITIVO";};
+speechSynthesis.speak(speech);
+if(label)label.textContent="ASCOLTA E SCEGLI";
+}catch(e){if(label)label.textContent="AUDIO NON DISPONIBILE";}
 };
 window.luigiJesusPick=function(i){religiousChosen=i;document.querySelectorAll("[data-jesus]").forEach(b=>b.classList.toggle("rce-picked",Number(b.dataset.jesus)===i));resetFeedback()};
 window.luigiJesusPlace=function(i){if(religiousChosen===null){if(placed[i]!==null){religiousChosen=placed[i];placed[i]=null}}else{placed=placed.map((x,j)=>x===religiousChosen?null:x);placed[i]=religiousChosen;religiousChosen=null}
@@ -62,7 +80,7 @@ document.querySelectorAll("[data-jesus]").forEach(b=>b.classList.remove("rce-pic
 const oldCheck=checkAnswer;
 checkAnswer=function(){if(current?.type==="lifeOfJesus"){selected=placed.length===current.stages.length&&placed.every((v,i)=>v===i)?"OK":"RIPROVA"}oldCheck()};
 const css=document.createElement("style");css.textContent=`
-.rce-images{display:grid;grid-template-columns:repeat(auto-fit,minmax(175px,1fr));gap:16px;margin:18px 0}
+.rce-voice{display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin:14px 0}.rce-voice button{font-size:20px;min-height:52px}.rce-voice span{font-size:14px;font-weight:700}\n.rce-images{display:grid;grid-template-columns:repeat(auto-fit,minmax(175px,1fr));gap:16px;margin:18px 0}
 .rce-two{grid-template-columns:repeat(2,minmax(0,1fr))}
 .rce-card,.rce-slot{border:4px solid #b4d5e7;background:#fff;border-radius:23px;min-height:170px;color:#17344b;padding:14px;font-size:19px;font-weight:900}
 .rce-pic{display:block;font-size:clamp(76px,10vw,125px);line-height:1.35}.rce-card strong,.rce-slot strong{display:block}
