@@ -10,6 +10,7 @@ const geo=[
  {title:'DALLA CAMPANIA A CASERTA',q:'QUAL È LA PROVINCIA DI CUI STIAMO PARLANDO?',opts:[['🏛️','CASERTA'],['⛵','SALERNO'],['🌊','NAPOLI']],answer:'CASERTA',explain:'CASERTA È UNA DELLE PROVINCE DELLA CAMPANIA.'}
 ];
 const phases=[['🌰','SEME'],['🌱','GERMOGLIO'],['🪴','PIANTINA'],['🌳','PIANTA']];
+geo.splice(1,2);
 variants.geografia=geo.map((x,i)=>[x.q,x.opts.map(o=>o[1]),x.answer]);
 variants.scienze=[['METTI IN ORDINE LE QUATTRO FASI',[], 'OK'],['QUAL È LA PRIMA FASE?',[], 'SEME'],['COSA SPUNTA DAL SEME?',[], 'GERMOGLIO'],['CHE COSA DIVENTA IL GERMOGLIO?',[], 'PIANTINA'],['QUAL È L’ULTIMA FASE?',[], 'PIANTA']];
 const originalActivity=activity;
