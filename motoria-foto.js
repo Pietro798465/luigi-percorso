@@ -13,7 +13,7 @@ renderLesson=function(l){
  l.type='sportChoice';l.question='RICONOSCI LO SPORT';l.expected=sportWords[i];l.hint='ASCOLTA IL NOME, POI SCEGLI LA FOTOGRAFIA GIUSTA.';
  const headline=document.querySelector('.exercise .instruction');if(headline)headline.textContent='GUARDA LE FOTOGRAFIE E SCEGLI LO SPORT.';
  const body=document.getElementById('lessonBody');
- body.innerHTML='<div class="sport-red-word">'+sportWords[i]+'</div><button class="btn sport-voice" type="button" onclick="luigiSportAscolta()">🔊 ASCOLTA / RIASCOLTA</button><p id="sport-audio-status" role="status"></p><div class="sport-photo-grid">'+choices.map((k,j)=>'<button type="button" class="sport-photo-card" aria-label="FOTOGRAFIA '+(j+1)+'" aria-pressed="false" data-answer="'+sportWords[k]+'" onclick="choose(this)"><span class="sport-photo" style="'+photoStyle(k)+'"></span><strong>FOTOGRAFIA '+(j+1)+'</strong></button>').join('')+'</div>';
+ body.innerHTML='<div class="sport-red-word">'+sportWords[i]+'</div><button class="btn sport-voice" type="button" onclick="luigiSportAscolta()">🔊 ASCOLTA / RIASCOLTA</button><p id="sport-audio-status" role="status"></p><div class="sport-photo-grid">'+choices.map((k,j)=>'<button type="button" class="sport-photo-card" aria-label="FOTOGRAFIA '+(j+1)+'" aria-pressed="false" data-answer="'+sportWords[k]+'" onclick="choose(this)"><img class="sport-photo" src="assets/motoria/'+sportWords[k].toLowerCase().replaceAll(' ','-')+'.jpg" alt="SPORT DA RICONOSCERE"><strong>FOTOGRAFIA '+(j+1)+'</strong></button>').join('')+'</div>';
 };
 const style=document.createElement('style');style.textContent=`
 .sport-red-word{font-size:clamp(55px,11vw,110px);font-weight:1000;color:#c81729;text-align:center;line-height:1.1;margin:20px 0}
@@ -22,7 +22,7 @@ const style=document.createElement('style');style.textContent=`
 .sport-photo-card{border:4px solid #afd4e7;background:#fff;border-radius:20px;overflow:hidden;padding:5px;color:#194362;min-height:215px}
 .sport-photo-card strong{display:block;font-size:15px;margin:8px 0}
 .sport-photo-card.selected{border-color:#238452;background:#e5fae9}
-.sport-photo{display:block;background-size:cover;background-position:center;width:100%;aspect-ratio:0.89;background-repeat:no-repeat;border-radius:13px}
+.sport-photo{display:block;width:100%;height:300px;object-fit:cover;object-position:center;border-radius:13px}
 @media(max-width:650px){.sport-photo-grid{gap:6px}.sport-photo-card{min-height:110px;padding:3px;border-width:3px}.sport-photo-card strong{font-size:10px}}
 `;document.head.append(style);
 })();
