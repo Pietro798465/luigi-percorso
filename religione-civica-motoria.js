@@ -8,7 +8,7 @@ const jesus=[
 {n:"ULTIMA CENA",art:"🍞",desc:"GESÙ CENA CON I DISCEPOLI"},
 {n:"RISURREZIONE",art:"🌅",desc:"GESÙ RISORGE"}
 ];
-const religionSets=[[0,1,2],[2,3,4],[0,1,2,3,4]];
+const religionSets=[[0,1],[1,2,3],[3,4]];
 const civic=[
 ["UN COMPAGNO CADE. COSA FAI?",["🤝","LO AIUTO"],["😆","RIDO DI LUI"]],
 ["IL SEMAFORO È ROSSO. COSA FAI?",["🛑","MI FERMO"],["🏃","ATTRAVERSO"]],
