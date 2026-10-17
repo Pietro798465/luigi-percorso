@@ -52,7 +52,7 @@ placed=Array(l.stages.length).fill(null);
 body.innerHTML=questionBar+'<div class="rce-images">'+l.stages.map((s,i)=>'<button type="button" class="rce-card" data-jesus="'+i+'" onclick="luigiJesusPick('+i+')"><span class="rce-pic">'+s.art+'</span><strong>'+s.n+'</strong></button>').join('')+'</div><h3>ORDINA LE TAPPE DA 1 A '+l.stages.length+'</h3><div class="rce-slots">'+l.stages.map((_,i)=>'<button type="button" id="rce-slot-'+i+'" class="rce-slot" onclick="luigiJesusPlace('+i+')">'+(i+1)+'</button>').join('')+'</div>';return
 }
 if(l.type==="civicChoice"){
-body.innerHTML='<div class="rce-images rce-two">'+l.choices.map(p=>'<button type="button" class="rce-card" data-answer="'+escapeHTML(p[1])+'" onclick="choose(this)"><span class="rce-pic">'+p[0]+'</span><strong>'+p[1]+'</strong></button>').join('')+'</div>';return
+body.innerHTML=questionBar+'<div class="rce-images rce-two">'+l.choices.map(p=>'<button type="button" class="rce-card" data-answer="'+escapeHTML(p[1])+'" onclick="choose(this)"><span class="rce-pic">'+p[0]+'</span><strong>'+p[1]+'</strong></button>').join('')+'</div>';return
 }
 body.innerHTML=questionBar+'<div class="rce-images">'+l.pictures.map((p,i)=>'<button type="button" class="rce-card" data-answer="'+p+'" onclick="choose(this)"><span class="rce-pic">'+p+'</span><strong>IMMAGINE '+(i+1)+'</strong></button>').join('')+'</div>'
 };
