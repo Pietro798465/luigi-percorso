@@ -9,7 +9,7 @@ const geo=[
  {title:'DALL’ITALIA ALLA CAMPANIA',q:'IN QUALE REGIONE SI TROVA CASERTA?',opts:[['🏔️','PIEMONTE'],['🌋','CAMPANIA'],['🏝️','SICILIA']],answer:'CAMPANIA',explain:'CASERTA SI TROVA IN CAMPANIA.'},
  {title:'DALLA CAMPANIA A CASERTA',q:'QUAL È LA PROVINCIA DI CUI STIAMO PARLANDO?',opts:[['🏛️','CASERTA'],['⛵','SALERNO'],['🌊','NAPOLI']],answer:'CASERTA',explain:'CASERTA È UNA DELLE PROVINCE DELLA CAMPANIA.'}
 ];
-const phases=[['🌰','SEME'],['🌱','GERMOGLIO'],['🪴','PIANTINA'],['🌳','PIANTA']];
+const phases=[['🫘','SEME'],['🌱','GERMOGLIO'],['🪴','PIANTINA'],['🌳','PIANTA']];
 geo.splice(1,2);
 variants.geografia=geo.map((x,i)=>[x.q,x.opts.map(o=>o[1]),x.answer]);
 variants.scienze=[['METTI IN ORDINE LE QUATTRO FASI',[], 'OK'],['QUAL È LA PRIMA FASE?',[], 'SEME'],['COSA SPUNTA DAL SEME?',[], 'GERMOGLIO'],['CHE COSA DIVENTA IL GERMOGLIO?',[], 'PIANTINA'],['QUAL È L’ULTIMA FASE?',[], 'PIANTA']];
@@ -21,9 +21,11 @@ activity=function(l){
  return o;
 };
 let picked=null,slots=[null,null,null,null],chosen='';
+let phaseOrder=[0,1,2,3];
+function mixPhases(){phaseOrder=[0,1,2,3];for(let i=3;i>0;i--){const j=Math.floor(Math.random()*(i+1));[phaseOrder[i],phaseOrder[j]]=[phaseOrder[j],phaseOrder[i]]}if(phaseOrder.every((n,i)=>n===i))[phaseOrder[0],phaseOrder[1]]=[phaseOrder[1],phaseOrder[0]];}
 function resetPick(){picked=null;chosen='';slots=[null,null,null,null]}
 const originalOpen=openLesson;
-openLesson=function(id){if(id==='scienze')resetPick();originalOpen(id)};
+openLesson=function(id){if(id==='scienze'){resetPick();mixPhases()}originalOpen(id)};
 const oldRender=renderLesson;
 renderLesson=function(l){
  const node=document.getElementById('lessonBody');
@@ -33,7 +35,7 @@ renderLesson=function(l){
  return;
  }
  if(l.type==='plantOrder'){
- node.innerHTML='<div class="gs-phases">'+phases.map((p,i)=>'<button type="button" class="gs-card" data-phase="'+i+'" onclick="gsPickPhase('+i+')"><span class="gs-illustration">'+p[0]+'</span><strong>'+p[1]+'</strong></button>').join('')+'</div><p class="gs-note">ORA METTI LE IMMAGINI NELL’ORDINE GIUSTO:</p><div class="gs-slots">'+[0,1,2,3].map(i=>'<button type="button" class="gs-slot" id="gs-slot-'+i+'" onclick="gsPlace('+i+')">'+(i+1)+'</button>').join('')+'</div><button type="button" class="btn secondary" onclick="gsReset()">↻ RICOMINCIA LA SEQUENZA</button>';
+ node.innerHTML='<div class="gs-phases">'+phaseOrder.map(i=>{const p=phases[i];return '<button type="button" class="gs-card" data-phase="'+i+'" onclick="gsPickPhase('+i+')"><span class="gs-illustration">'+p[0]+'</span><strong>'+p[1]+'</strong></button>'}).join('')+'</div><p class="gs-note">ORA METTI LE IMMAGINI NELL’ORDINE GIUSTO:</p><div class="gs-slots">'+[0,1,2,3].map(i=>'<button type="button" class="gs-slot" id="gs-slot-'+i+'" onclick="gsPlace('+i+')">'+(i+1)+'</button>').join('')+'</div><button type="button" class="btn secondary" onclick="gsReset()">↻ RICOMINCIA LA SEQUENZA</button>';
  return;
  }
  if(l.type==='plantChoice'){
@@ -44,7 +46,7 @@ renderLesson=function(l){
 window.gsChoose=function(el){selected=el.dataset.answer;document.querySelectorAll('.gs-card').forEach(x=>{x.classList.toggle('gs-selected',x===el);x.setAttribute('aria-pressed',x===el?'true':'false')});resetFeedback()};
 window.gsPickPhase=function(i){picked=i;document.querySelectorAll('[data-phase]').forEach(x=>x.classList.toggle('gs-selected',Number(x.dataset.phase)===i));resetFeedback()};
 window.gsPlace=function(i){if(picked===null){picked=slots[i];slots[i]=null}else{slots=slots.map(v=>v===picked?null:v);slots[i]=picked;picked=null}for(let k=0;k<4;k++){const e=document.getElementById('gs-slot-'+k);e.innerHTML=slots[k]===null?String(k+1):'<span class="gs-illustration">'+phases[slots[k]][0]+'</span><strong>'+phases[slots[k]][1]+'</strong>';}document.querySelectorAll('[data-phase]').forEach(x=>x.classList.remove('gs-selected'));resetFeedback()};
-window.gsReset=function(){resetPick();renderLesson(current);resetFeedback()};
+window.gsReset=function(){resetPick();mixPhases();renderLesson(current);resetFeedback()};
 const originalCheck=checkAnswer;
 checkAnswer=function(){if(current?.type==='plantOrder'){selected=slots.every((x,i)=>x===i)?'OK':'RIPROVA'}originalCheck()};
 const css=document.createElement('style');css.textContent=`
