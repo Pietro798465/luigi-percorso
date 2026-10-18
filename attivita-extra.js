@@ -215,7 +215,7 @@ A|NATRA|🦆
     {name:'CHITARRA',picture:'🎸'},
     {name:'PIANOFORTE',picture:'🎹'},
     {name:'TAMBURO',picture:'🥁'},
-    {name:'FLAUTO',picture:'🪈'}
+    {name:'FLAUTO',picture:'<svg viewBox="0 0 160 70" width="150" height="72" role="img" aria-label="FLAUTO TRAVERSO" xmlns="http://www.w3.org/2000/svg"><rect x="14" y="27" width="130" height="17" rx="6" fill="#bdcbd7" stroke="#536e7e" stroke-width="2"/><rect x="7" y="24" width="25" height="23" rx="6" fill="#e2eaf0" stroke="#536e7e" stroke-width="2"/><circle cx="49" cy="35" r="5" fill="#536e7e"/><circle cx="65" cy="35" r="5" fill="#536e7e"/><circle cx="81" cy="35" r="5" fill="#536e7e"/><circle cx="97" cy="35" r="5" fill="#536e7e"/><circle cx="113" cy="35" r="5" fill="#536e7e"/><rect x="138" y="25" width="13" height="21" rx="4" fill="#91a5b6"/></svg>'}
   ];
   variants.musica=instruments.map(x=>[x.name,'OK']);
   const lessonTechnology=lessons.find(x=>x.id==='tecnologia');lessonTechnology.tag='RACCOLTA DIFFERENZIATA';lessonTechnology.title='OGNI OGGETTO AL SUO POSTO';
