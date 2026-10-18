@@ -41,7 +41,7 @@ function enhance(){
    wrap.querySelector('#luigi-calc-toggle').onclick=()=>{panel.hidden=!panel.hidden};
    const keys=['7','8','9','+','4','5','6','−','1','2','3','=','C','0','⌫'];
    for(const key of keys){const b=document.createElement('button');b.type='button';b.textContent=key;
-    b.onclick=()=>{if(key==='C')expr='';else if(key==='⌫')expr=expr.slice(0,-1);else if(key==='='){const m=expr.match(/^(\\d+)([+−])(\\d+)$/);expr=m?String(m[2]==='+'?+m[1]+ +m[3]:+m[1]- +m[3]):'ERRORE'}else{if(expr==='ERRORE')expr='';expr+=key}display.textContent=expr||'0'};
+    b.onclick=()=>{if(key==='C')expr='';else if(key==='⌫')expr=expr.slice(0,-1);else if(key==='='){const m=expr.match(/^(\d+)([+−])(\d+)$/);expr=m?String(m[2]==='+'?+m[1]+ +m[3]:+m[1]- +m[3]):'ERRORE'}else{if(expr==='ERRORE')expr='';expr+=key}display.textContent=expr||'0'};
     wrap.querySelector('.luigi-calc-keys').append(b);
    }
   }
@@ -50,7 +50,7 @@ function enhance(){
   const fields=body.querySelector('.identity-fields');
   if(fields){
    const nome=fields.querySelector('[data-identity="nome"]'),cognome=fields.querySelector('[data-identity="cognome"]');
-   if(nome&&cognome){nome.value=((identityData.nome||'')+' '+(identityData.cognome||'')).trim();nome.dataset.identity='nomeCompleto';nome.oninput=()=>{const v=nome.value.trim().split(/\\s+/);identityData.nome=v.shift()||'';identityData.cognome=v.join(' ');drawPortrait();resetFeedback()};cognome.closest('label')?.remove();}
+   if(nome&&cognome){nome.value=((identityData.nome||'')+' '+(identityData.cognome||'')).trim();nome.dataset.identity='nomeCompleto';nome.oninput=()=>{const v=nome.value.trim().split(/\s+/);identityData.nome=v.shift()||'';identityData.cognome=v.join(' ');drawPortrait();resetFeedback()};cognome.closest('label')?.remove();}
    for(const field of fields.querySelectorAll('label')){
     const input=field.querySelector('input,select');if(!input||field.querySelector('.luigi-field-speak'))continue;
     const id=input.dataset.identity==='nomeCompleto'?'nome':input.dataset.identity;
