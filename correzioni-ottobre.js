@@ -32,6 +32,14 @@ function enhance(){
   b.addEventListener('click',()=>say([current.question,current.hint].filter(Boolean).join('. ')));
   instruction.after(b);
  }
+ if(current.id==='italiano' && !body.querySelector('.luigi-read-word')){
+  const b=document.createElement('button');b.type='button';b.className='btn secondary luigi-read-word';b.textContent='🔊 ASCOLTA LA PAROLA';
+  b.onclick=()=>{
+   const displayed=String(current.question||'').replace(/[_…]+/g,' pausa ');
+   say('ASCOLTA LA PAROLA DA COMPLETARE. '+displayed);
+  };
+  body.prepend(b);
+ }
  if(current.id==='matematica'){
   if(!body.querySelector('.luigi-math-calc')){
    const wrap=document.createElement('div');wrap.className='luigi-math-calc';
